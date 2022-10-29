@@ -11,7 +11,7 @@ public class token {
         File file = new File("token.txt");
         if(file.createNewFile()) {
             System.out.println("File for token created: " + file.getName() + "Insert token there");
-            System.out.println("Exiting program");
+            System.out.println("Cannot continue, Exiting program");
             System.exit(0);
         } else {
             System.out.println("Token exists, loading token");

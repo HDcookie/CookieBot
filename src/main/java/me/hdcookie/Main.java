@@ -14,7 +14,10 @@ public class Main {
         System.out.println("Starting discord bot");
 
         token token = new token();
+        gameSaver gameSaver = new gameSaver();
+
         token.createFile();
+        gameSaver.loadFile();
 
         JDA api = JDABuilder.createDefault(token.getToken()).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
         System.out.println("Connected to discord");

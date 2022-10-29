@@ -1,9 +1,12 @@
 package me.hdcookie.events;
 
+import me.hdcookie.gameSaver;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
+import java.io.IOException;
 
 public class count extends ListenerAdapter {
 
@@ -13,6 +16,7 @@ public class count extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event){
         if(event.getChannel().getId().equals("1035337062984986765")) {
+            gameSaver gameSaver = new gameSaver();
             if (event.getAuthor().isBot()) {
                 return;
             }
@@ -35,7 +39,11 @@ public class count extends ListenerAdapter {
                 }
 
                 //Runs when everything is right
-                nextNumber++;
+                try {
+                    gameSaver.count();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 event.getMessage().addReaction(Emoji.fromUnicode("\u2705")).queue();
                 lastMember = event.getMember();
             } else {
@@ -50,7 +58,11 @@ public class count extends ListenerAdapter {
                 //If message is number but not right number:
                 event.getMessage().addReaction(Emoji.fromUnicode("\u274C")).queue();
                 event.getChannel().sendMessage("Wrong number.  Next number is 1").queue();
-                nextNumber = 1;
+                try {
+                    gameSaver.resetNumber();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
