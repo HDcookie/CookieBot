@@ -1,8 +1,7 @@
-package me.HDcookie.Commands;
+package me.hdcookie.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.Modal;
 
 import java.io.File;
 import java.io.FileNotFoundException;

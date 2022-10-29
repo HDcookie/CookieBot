@@ -1,4 +1,4 @@
-package me.HDcookie.Events;
+package me.hdcookie.events;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;

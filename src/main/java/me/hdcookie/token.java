@@ -1,4 +1,4 @@
-package me.HDcookie;
+package me.hdcookie;
 
 import java.io.File;
 import java.io.IOException;

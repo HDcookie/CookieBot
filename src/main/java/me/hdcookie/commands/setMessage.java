@@ -1,4 +1,4 @@
-package me.HDcookie.Commands;
+package me.hdcookie.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
