@@ -1,0 +1,12 @@
+#Gradle
+.gradle/
+build/
+
+#pls dont break anything
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+token.txt
