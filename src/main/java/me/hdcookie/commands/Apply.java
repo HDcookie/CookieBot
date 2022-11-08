@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 
-public class apply extends ListenerAdapter {
+public class Apply extends ListenerAdapter {
 
     public Modal getApplyModal(){
         TextInput subject = TextInput.create("Subject", "What position are you applying for?", TextInputStyle.SHORT)

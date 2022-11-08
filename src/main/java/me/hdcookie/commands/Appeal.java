@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.interactions.components.Modal;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 
-public class appeal extends ListenerAdapter {
+public class Appeal extends ListenerAdapter {
     public Modal getAppealModal(){
         TextInput subject = TextInput.create("Subject", "What are you appealing from?", TextInputStyle.SHORT)
                 .setPlaceholder("Subject of ticket").setMaxLength(20).build();

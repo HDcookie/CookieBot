@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class fact extends ListenerAdapter {
+public class Fact extends ListenerAdapter {
 
     public Scanner getFactScanner() throws FileNotFoundException {
         File file = new File("fact.txt");
