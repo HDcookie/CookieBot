@@ -22,12 +22,21 @@ public class Main {
         Token token = new Token();
         GameSaver gameSaver = new GameSaver();
         PointManager pointManager = new PointManager();
+        Config config = new Config();
 
         token.createFile();
         gameSaver.loadFile();
         pointManager.setUp();
+        config.createFile();
 
-        JDA api = JDABuilder.createDefault(token.getToken()).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
+        String tokenStr;
+        if(Config.config.get("useTokenFile").equals("true")){
+            tokenStr = token.getToken();
+        } else {
+            tokenStr = config.getToken();
+        }
+
+        JDA api = JDABuilder.createDefault(tokenStr).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
         System.out.println("Connected to discord");
 
         api.getPresence().setPresence(Activity.playing("Discord"), true);
@@ -62,7 +71,8 @@ public class Main {
                 new Count(gameSaver, pointManager),
                 new PointCommands(pointManager),
                 new PointListener(pointManager),
-                new MakeASentance(gameSaver, pointManager)
+                new MakeASentance(gameSaver, pointManager),
+                new GuessTheNumber(gameSaver, pointManager)
         );
     }
 }

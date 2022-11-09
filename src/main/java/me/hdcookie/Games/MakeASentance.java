@@ -1,5 +1,6 @@
 package me.hdcookie.Games;
 
+import me.hdcookie.Config;
 import me.hdcookie.Points.PointManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -20,7 +21,7 @@ public class MakeASentance extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
-        if (event.getMessage().getChannel().getId().equals("1039538869667889183")) {
+        if (event.getMessage().getChannel().getId().equals(Config.config.get("makeASentenceID"))) {
             try {
                 String message = event.getMessage().getContentRaw();
                 String[] msgWords = message.split("\\b");

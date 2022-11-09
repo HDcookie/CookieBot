@@ -56,6 +56,7 @@ public class PointListener extends ListenerAdapter {
             throw new RuntimeException(e);
         }
     }
+    //Test
     @Override
     public void onMessageReactionAdd(MessageReactionAddEvent event){
         if(event.getMember().getUser().isBot()) return;

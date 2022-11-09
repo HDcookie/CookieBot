@@ -26,8 +26,6 @@ public class PointManager {
             String data = scanner.nextLine();
             object = (JSONObject) JSONValue.parse(data);
 
-            System.out.println("Points data" + object.toJSONString());
-
         }
     }
 

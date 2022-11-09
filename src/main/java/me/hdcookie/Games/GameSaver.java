@@ -1,5 +1,6 @@
 package me.hdcookie.Games;
 
+import me.hdcookie.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import org.json.simple.JSONObject;
@@ -34,8 +35,6 @@ public class GameSaver {
         Scanner scanner = new Scanner(file);
         String data = scanner.nextLine();
         object = (JSONObject) JSONValue.parse(data);
-
-        System.out.println("Game data" + object.toJSONString());
 
     }
 //Counting -----------------------------------------------------------------------------------------------
@@ -75,16 +74,10 @@ public class GameSaver {
                 .setDescription(object.get("sentence").toString())
                 .setColor(0x00ff00);
 
-        jda.getTextChannelById(1039538930497880095L).sendMessageEmbeds(builder.build()).queue();
+        jda.getTextChannelById(Config.config.get("finishedSentencesID")).sendMessageEmbeds(builder.build()).queue();
 
         object.put("sentence", null);
         saveFile();
-    }
-
-    public void saveFile() throws IOException {
-        FileWriter fileWriter = new FileWriter("game.txt");
-        fileWriter.write(object.toJSONString());
-        fileWriter.close();
     }
 
     public String getSentance() {
@@ -94,4 +87,25 @@ public class GameSaver {
             return object.get("sentence").toString();
         }
     }
+
+//GuessTheNumber -----------------------------------------------------------------------------------------------
+    public void getNewGuessNumber() throws IOException {
+        int number = (int) (Math.random() * 100);
+        object.put("guessNumber", String.valueOf(number));
+        saveFile();
+    }
+
+    public int getGuessNumber() {
+        return Integer.parseInt(object.get("guessNumber").toString());
+    }
+
+
+
+
+    public void saveFile() throws IOException {
+        FileWriter fileWriter = new FileWriter("game.txt");
+        fileWriter.write(object.toJSONString());
+        fileWriter.close();
+    }
+
 }

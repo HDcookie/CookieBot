@@ -1,5 +1,6 @@
 package me.hdcookie.Games;
 
+import me.hdcookie.Config;
 import me.hdcookie.Points.PointManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -21,7 +22,7 @@ public class Count extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event){
-        if(event.getChannel().getId().equals("1035337062984986765")) {
+        if(event.getChannel().getId().equals(Config.config.get("countingID"))) {
             try{
                 int nextNumber = gameSaver.getNumber();
                 if (event.getAuthor().isBot()) {
