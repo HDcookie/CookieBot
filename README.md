@@ -7,8 +7,9 @@ TODO:
 - Auto channel description/emoji
 - Free simple channel games 
   - Truth or dare
-  - Make a sentence
-  - Counting
+  - Make a sentence (Done) 
+  - Counting (Done)
   - Guess the number
   - One message each
 - Question of the Day/Challange of the Day
+- Points system (currency/xp, gains points for compleating/winning games.  
