@@ -17,7 +17,7 @@ public class PointCommands extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         try {
-            if (event.getName().equals("getpoints")) {
+            if (event.getName().equals("getpoints") || event.getName().equals("points")) {
                 /* Command to get points */
                 if(event.getOption("user") != null) {
                     Member member = event.getOption("user").getAsMember();
