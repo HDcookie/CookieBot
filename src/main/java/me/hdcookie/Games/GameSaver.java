@@ -1,5 +1,7 @@
-package me.hdcookie;
+package me.hdcookie.Games;
 
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -36,7 +38,7 @@ public class GameSaver {
         System.out.println("Game data" + object.toJSONString());
 
     }
-
+//Counting -----------------------------------------------------------------------------------------------
     public void count() throws IOException {
 
         int number = Integer.parseInt(object.get("counting").toString());
@@ -54,9 +56,42 @@ public class GameSaver {
         return Integer.parseInt(object.get("counting").toString());
     }
 
+//MakeASentance -----------------------------------------------------------------------------------------------
+    public void addWord(String word) throws IOException {
+        if(object.get("sentence") == null) {
+            object.put("sentence", word);
+        } else {
+            String sentence = object.get("sentence").toString();
+            sentence = sentence + " " + word;
+            object.put("sentence", sentence);
+        }
+        saveFile();
+    }
+
+    public void finishSentance(JDA jda) throws IOException {
+
+        EmbedBuilder builder = new EmbedBuilder()
+                .setTitle("New Sentence in " + jda.getGuildById("959573676892774461").getName())
+                .setDescription(object.get("sentence").toString())
+                .setColor(0x00ff00);
+
+        jda.getTextChannelById(1039538930497880095L).sendMessageEmbeds(builder.build()).queue();
+
+        object.put("sentence", null);
+        saveFile();
+    }
+
     public void saveFile() throws IOException {
         FileWriter fileWriter = new FileWriter("game.txt");
         fileWriter.write(object.toJSONString());
         fileWriter.close();
+    }
+
+    public String getSentance() {
+        if(object.get("sentence") == null) {
+            return "";
+        } else {
+            return object.get("sentence").toString();
+        }
     }
 }

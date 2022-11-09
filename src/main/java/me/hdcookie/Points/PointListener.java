@@ -5,9 +5,13 @@ credit where credit's due
  */
 package me.hdcookie.Points;
 
+import net.dv8tion.jda.api.entities.channel.ChannelType;
+import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -52,4 +56,24 @@ public class PointListener extends ListenerAdapter {
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public void onMessageReactionAdd(MessageReactionAddEvent event){
+        if(event.getMember().getUser().isBot()) return;
+        if(event.getChannelType() == ChannelType.PRIVATE) return;
+        if(event.getChannelType() == ChannelType.GUILD_PUBLIC_THREAD){
+            ThreadChannel thread = (ThreadChannel) event.getChannel();
+            if(thread.getParentChannel().getId().equals("1019711489252261938")){
+
+                try {
+                    System.out.println("worked");
+                    pointManager.addPoints(event.getMember().getId(), 1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+
+    }
+
 }

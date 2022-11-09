@@ -1,10 +1,12 @@
 package me.hdcookie;
 
+import me.hdcookie.Games.GameSaver;
+import me.hdcookie.Games.MakeASentance;
 import me.hdcookie.Points.PointCommands;
 import me.hdcookie.Points.PointListener;
 import me.hdcookie.Points.PointManager;
 import me.hdcookie.commands.*;
-import me.hdcookie.events.Count;
+import me.hdcookie.Games.Count;
 import me.hdcookie.events.JoinEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -45,6 +47,9 @@ public class Main {
                 .addCommands(Commands.slash("removepoints", "Remove points from an account")
                         .addOption(OptionType.USER, "user", "The user to remove points from", true)
                         .addOption(OptionType.INTEGER, "points", "The amount of points to remove", true))
+                .addCommands(Commands.slash("points", "Get your points")
+                        .addOption(OptionType.USER, "user", "The user you want to get the points of", false))
+
                 .queue();
 
 
@@ -54,8 +59,10 @@ public class Main {
                 new Apply(),
                 new Appeal(),
                 new Fact(),
-                new Count(gameSaver),
+                new Count(gameSaver, pointManager),
                 new PointCommands(pointManager),
-                new PointListener(pointManager) );
+                new PointListener(pointManager),
+                new MakeASentance(gameSaver, pointManager)
+        );
     }
 }
