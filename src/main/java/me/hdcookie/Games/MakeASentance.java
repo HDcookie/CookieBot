@@ -3,6 +3,7 @@ package me.hdcookie.Games;
 import me.hdcookie.Config;
 import me.hdcookie.Points.PointManager;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -17,6 +18,7 @@ public class MakeASentance extends ListenerAdapter {
         this.gameSaver = gameSaver;
         this.pointManager = pointManager;
     }
+    private Member lastMember;
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -31,12 +33,21 @@ public class MakeASentance extends ListenerAdapter {
 
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setTitle("Make a Sentance")
-                        .setDescription("Final sentance: " + gameSaver.getSentance() + "sent in" + event.getJDA().getTextChannelById("1039538930497880095").getAsMention())
+                        .setDescription("Final sentance: " + gameSaver.getSentance() + "sent in" + event.getJDA().getTextChannelById(Config.config.get("finishedSentencesID")).getAsMention())
                         .setColor(0x00ff00);
 
 
                 if (msgWords.length == 1) { //if the message is only one word, what we want
+                    if(lastMember == null){
+                        lastMember = event.getMember();
+                    }else if(lastMember.equals(event.getMember())){
+                        event.getMessage().delete().queue();
+                        return;
+                    }
+
+
                     gameSaver.addWord(msgWords[0]);
+                    lastMember = event.getMember();
                     event.getMessage().addReaction(Emoji.fromUnicode("U+2705")).queue();
 
                     if(isPunctuation){ //1 word and finishes with a punctuation mark

@@ -1,5 +1,6 @@
-package me.hdcookie;
+package me.hdcookie.Games;
 
+import me.hdcookie.Config;
 import me.hdcookie.Games.GameSaver;
 import me.hdcookie.Points.PointManager;
 import net.dv8tion.jda.api.entities.emoji.Emoji;

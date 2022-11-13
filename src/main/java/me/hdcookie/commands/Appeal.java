@@ -1,5 +1,6 @@
 package me.hdcookie.commands;
 
+import me.hdcookie.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -53,9 +54,10 @@ public class Appeal extends ListenerAdapter {
             embed.setAuthor(event.getUser().getAsTag(), null, event.getUser().getAvatarUrl());
 
 
-            event.getGuild().getTextChannelById(959575181628686356L).sendMessage("New application" +
+            event.getGuild().getTextChannelById(Config.config.get("finishedFormsChannel")).sendMessage("New application" +
                     event.getGuild().getRoleById(959575223315865603L).getAsMention()).queue();
-            event.getGuild().getTextChannelById(959575181628686356L).sendMessageEmbeds(embed.build()).queue();
+
+            event.getGuild().getTextChannelById(Config.config.get("finishedFormsRole")).sendMessageEmbeds(embed.build()).queue();
         }
     }
 }

@@ -23,8 +23,12 @@ public class PointManager {
             System.out.println("Points file exists, loading points");
 
             Scanner scanner = new Scanner(file);
-            String data = scanner.nextLine();
-            object = (JSONObject) JSONValue.parse(data);
+            if(scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                object = (JSONObject) JSONValue.parse(line);
+            }else {
+                System.out.println("Points file is empty but still loaded");
+            }
 
         }
     }

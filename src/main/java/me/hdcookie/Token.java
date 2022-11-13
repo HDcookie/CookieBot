@@ -10,9 +10,11 @@ public class Token {
         //create file
         File file = new File("token.txt");
         if(file.createNewFile()) {
-            System.out.println("File for token created: " + file.getName() + "Insert token there");
-            System.out.println("Cannot continue, Exiting program");
-            System.exit(0);
+            System.out.println("File for token created: " + file.getName() + "Insert token there, or use config.txt");
+            if(Config.config.get("useTokenFile").equals("true")) {
+                System.out.println("Cannot continue because the config is using the token.txt file and token.txt is empty.   Exiting program");
+                System.exit(0);
+            }
         } else {
             System.out.println("Token exists, loading token");
         }

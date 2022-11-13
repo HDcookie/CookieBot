@@ -21,9 +21,12 @@ public class Config {
             FileWriter writer = new FileWriter(file);
             writer.write("useTokenFile=false\n");
             writer.write("token=YOUR_TOKEN_HERE\n");
-            writer.write("make_a_sentence_ID=0\n");
+            writer.write("makeASentenceID=0\n");
             writer.write("finishedSentencesID=0\n");
             writer.write("countingID=0\n");
+            writer.write("guessTheNumberID=0\n");
+            writer.write("finishedFormsChannel=0\n");
+            writer.write("finishedFormsRole=0\n");
             writer.close();
 
             System.exit(0);

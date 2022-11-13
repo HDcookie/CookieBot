@@ -1,12 +1,15 @@
 package me.hdcookie;
 
+import kotlin.sequences.SequencesKt;
 import me.hdcookie.Games.GameSaver;
+import me.hdcookie.Games.GuessTheNumber;
 import me.hdcookie.Games.MakeASentance;
 import me.hdcookie.Points.PointCommands;
 import me.hdcookie.Points.PointListener;
 import me.hdcookie.Points.PointManager;
 import me.hdcookie.commands.*;
 import me.hdcookie.Games.Count;
+import me.hdcookie.commands.music.*;
 import me.hdcookie.events.JoinEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -19,15 +22,16 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("Starting discord bot");
 
+        Config config = new Config();
         Token token = new Token();
         GameSaver gameSaver = new GameSaver();
         PointManager pointManager = new PointManager();
-        Config config = new Config();
 
+        config.createFile();
         token.createFile();
         gameSaver.loadFile();
         pointManager.setUp();
-        config.createFile();
+
 
         String tokenStr;
         if(Config.config.get("useTokenFile").equals("true")){
@@ -44,7 +48,8 @@ public class Main {
         api.updateCommands()
                 .addCommands(Commands.slash("apply", "Apply for a role"))
                 .addCommands(Commands.slash("appeal", "Appeal a punishment decision"))
-                .addCommands(Commands.slash("sendmessage", "Send the message for roles"))
+                .addCommands(Commands.slash("sendmessage", "Send the message for roles")
+                        .addOption(OptionType.STRING, "message", "The type or specific message to send", true))
                 .addCommands(Commands.slash("test", "test command"))
                 .addCommands(Commands.slash("fact", "Get a random fact"))
                 .addCommands(Commands.slash("ping", "check the bots ping"))
@@ -58,7 +63,13 @@ public class Main {
                         .addOption(OptionType.INTEGER, "points", "The amount of points to remove", true))
                 .addCommands(Commands.slash("points", "Get your points")
                         .addOption(OptionType.USER, "user", "The user you want to get the points of", false))
-
+                .addCommands(Commands.slash("join", "Join your vc"))
+                .addCommands(Commands.slash("play", "Play a song")
+                        .addOption(OptionType.STRING, "song", "The song or url you want to play", true))
+                .addCommands(Commands.slash("stop", "Stop the music"))
+                .addCommands(Commands.slash("skip", "Skip the current song"))
+                .addCommands(Commands.slash("nowplaying", "show what song is playing right now"))
+                .addCommands(Commands.slash("queue", "show the current queue"))
                 .queue();
 
 
@@ -72,7 +83,13 @@ public class Main {
                 new PointCommands(pointManager),
                 new PointListener(pointManager),
                 new MakeASentance(gameSaver, pointManager),
-                new GuessTheNumber(gameSaver, pointManager)
+                new GuessTheNumber(gameSaver, pointManager),
+                new JoinCommand(),
+                new PlayCommand(),
+                new StopCommand(),
+                new SkipCommand(),
+                new NowPlaying(),
+                new QueueCommand()
         );
     }
 }

@@ -66,7 +66,6 @@ public class PointListener extends ListenerAdapter {
             if(thread.getParentChannel().getId().equals("1019711489252261938")){
 
                 try {
-                    System.out.println("worked");
                     pointManager.addPoints(event.getMember().getId(), 1);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
