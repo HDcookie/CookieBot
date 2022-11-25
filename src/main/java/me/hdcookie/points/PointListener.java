@@ -3,7 +3,7 @@ stole a bit of code from
 https://github.com/zp4rker/zlevels/blob/master/src/main/java/me/zp4rker/zlevels/lstnr/MessageSendListener.java
 credit where credit's due
  */
-package me.hdcookie.Points;
+package me.hdcookie.points;
 
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;

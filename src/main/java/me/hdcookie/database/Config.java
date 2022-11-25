@@ -1,4 +1,4 @@
-package me.hdcookie;
+package me.hdcookie.database;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Config {
 
-    public static final HashMap<String, String> config = new HashMap<>();
+    public static final HashMap<String, String> configHashMap = new HashMap<>();
 
     public void createFile() throws IOException, IOException {
         //create file
@@ -37,13 +37,13 @@ public class Config {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split("=");
-                config.put(parts[0], parts[1]);
+                configHashMap.put(parts[0], parts[1]);
             }
-            System.out.println("Config loaded" + config.toString());
+            System.out.println("Config loaded" + configHashMap.toString());
         }
     }
 
     public String getToken() {
-        return config.get("token");
+        return configHashMap.get("token");
     }
 }

@@ -53,11 +53,21 @@ public class PlayerManager {
             public void playlistLoaded(AudioPlaylist playlist) {
                 List<AudioTrack> tracks = playlist.getTracks();
 
-                channel.sendMessage("Adding to queue **" +tracks.get(0).getInfo().title +"**, by " +tracks.get(0).getInfo().author+
-                        "\nFrom "+ playlist.getName()
-                + "\n" + tracks.get(0).getInfo().uri).queue();
+                if(playlist.isSearchResult()) {
+                    trackLoaded(playlist.getTracks().get(0));
+                    channel.sendMessage("Adding to queue **" +tracks.get(0).getInfo().title +"**, by " +tracks.get(0).getInfo().author+
+                            "\nFrom "+ playlist.getName()
+                            + "\n" + tracks.get(0).getInfo().uri).queue();
+                    return;
+                }
 
-                musicManager.scheduler.queue(tracks.get(0));
+                for (AudioTrack track : tracks) {
+                    musicManager.scheduler.queue(track);
+                }
+
+
+
+                channel.sendMessage("Adding to queue " + tracks.size() + " songs from playlist " + playlist.getName()).queue();
 
             }
 

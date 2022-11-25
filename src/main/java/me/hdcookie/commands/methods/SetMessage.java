@@ -1,4 +1,4 @@
-package me.hdcookie.commands;
+package me.hdcookie.commands.methods;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;

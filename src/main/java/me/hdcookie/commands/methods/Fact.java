@@ -1,4 +1,4 @@
-package me.hdcookie.commands;
+package me.hdcookie.commands.methods;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,8 +18,8 @@ public class Fact extends ListenerAdapter {
         return scanner;
     }
 
-    @Override
-    public void onSlashCommandInteraction(SlashCommandInteractionEvent event){
+
+    public void factCommand(SlashCommandInteractionEvent event){
         if(event.getName().equals("fact")){
             String fact = "";
             try{

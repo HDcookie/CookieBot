@@ -1,4 +1,4 @@
-package me.hdcookie.Points;
+package me.hdcookie.points;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
