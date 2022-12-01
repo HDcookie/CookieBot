@@ -68,6 +68,11 @@ public class Database {
     }
 
 
+
+
+
+
+
 //Getters for channel ID's -----------------------------------------------------------------------------------------------
     public String getCountingID(String serverID) throws SQLException {
 
@@ -115,6 +120,19 @@ public class Database {
         }
     }
 
+    public String getTruthOrDareID(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("SELECT TruthOrDareID FROM settings WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        try {
+            return rs.getString("TruthOrDareID");
+        } catch (SQLException e) {
+            return "0";
+        }
+    }
+
 //Setters for channel ID's -----------------------------------------------------------------------------------------------
 
     public void setRadio(String channelID, String serverID) throws SQLException {
@@ -144,6 +162,13 @@ public class Database {
     }
     public void setFinishedSentencesID(String channelID, String serverID) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("UPDATE settings SET FinishedSentenceID = ? WHERE GuildID = ?");
+        ps.setString(1, channelID);
+        ps.setString(2, serverID);
+        ps.executeUpdate();
+    }
+
+    public void setTruthOrDareID(String channelID, String serverID) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("UPDATE settings SET TruthOrDareID = ? WHERE GuildID = ?");
         ps.setString(1, channelID);
         ps.setString(2, serverID);
         ps.executeUpdate();
@@ -198,6 +223,99 @@ public class Database {
 
         PreparedStatement ps = connection.prepareStatement("UPDATE games SET CurrentSentence = ? WHERE GuildID = ?");
         ps.setString(1, sentence);
+        ps.setString(2, serverID);
+        ps.executeUpdate();
+    }
+
+    //Getters for Truth or Dare data -----------------------------------------------------------------------------------------------
+
+    public String getTruthOrDare(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("SELECT TruthOrDare FROM tod WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("TruthOrDare");
+    }
+
+    public String getAskerID(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("SELECT AskerID FROM tod WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("AskerID");
+    }
+
+    public String getAnswererID(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("SELECT AnswererID FROM tod WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("AnswererID");
+    }
+
+    public String getQuestion(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("SELECT Question FROM tod WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("Question");
+    }
+
+    //Setters for Truth or Dare data -----------------------------------------------------------------------------------------------
+
+    public void addTruthOrDare(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("INSERT IGNORE INTO tod (GuildID, AskerID, AnswererID, Question, TruthOrDare) VALUES (?, ?, ?, ?, ?)");
+        ps.setString(1, serverID);
+        ps.setString(2, "0");
+        ps.setString(3, "0");
+        ps.setString(4, "none");
+        ps.setString(5, "none");
+        ps.executeUpdate();
+    }
+
+    //statement checking if the server is already in the tod table
+
+    public boolean todExists(String serverID) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement("SELECT * FROM tod WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
+
+    public void setTruthOrDare(String serverID, String truthOrDare) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("UPDATE tod SET TruthOrDare = ? WHERE GuildID = ?");
+        ps.setString(1, truthOrDare);
+        ps.setString(2, serverID);
+        ps.executeUpdate();
+    }
+
+    public void setAskerID(String serverID, String askerID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("UPDATE tod SET AskerID = ? WHERE GuildID = ?");
+        ps.setString(1, askerID);
+        ps.setString(2, serverID);
+        ps.executeUpdate();
+    }
+
+    public void setAnswererID(String serverID, String answererID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("UPDATE tod SET AnswererID = ? WHERE GuildID = ?");
+        ps.setString(1, answererID);
+        ps.setString(2, serverID);
+        ps.executeUpdate();
+    }
+
+    public void setQuestion(String serverID, String question) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("UPDATE tod SET Question = ? WHERE GuildID = ?");
+        ps.setString(1, question);
         ps.setString(2, serverID);
         ps.executeUpdate();
     }

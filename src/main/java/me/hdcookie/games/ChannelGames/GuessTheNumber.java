@@ -1,5 +1,6 @@
-package me.hdcookie.games;
+package me.hdcookie.games.ChannelGames;
 
+import me.hdcookie.games.GameManager;
 import me.hdcookie.points.PointManager;
 import me.hdcookie.database.Database;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -21,7 +22,8 @@ public class GuessTheNumber extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getAuthor().isBot()) return;
+        if(event.getAuthor().isBot()) return;
+        if(event.getChannelType().equals(event.getChannelType().PRIVATE)) return;
         try {
             if (event.getMessage().getChannel().getId().equals(database.getGuessingID(event.getGuild().getId()))) {
                 try {

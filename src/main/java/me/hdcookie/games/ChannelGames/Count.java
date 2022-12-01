@@ -1,5 +1,6 @@
-package me.hdcookie.games;
+package me.hdcookie.games.ChannelGames;
 
+import me.hdcookie.games.GameManager;
 import me.hdcookie.points.PointManager;
 import me.hdcookie.database.Database;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -40,6 +41,8 @@ public class Count extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event){
 
         try {
+            if(event.getAuthor().isBot()) return;
+            if(event.getChannelType().equals(event.getChannelType().PRIVATE)) return;
             if(event.getChannel().getId().equals(database.getCountingID(event.getGuild().getId()))) {
 
                 try{

@@ -1,18 +1,20 @@
 package me.hdcookie;
 
-import me.hdcookie.games.GameManager;
-import me.hdcookie.games.GuessTheNumber;
-import me.hdcookie.games.MakeASentance;
+import me.hdcookie.games.*;
+import me.hdcookie.games.ChannelGames.Count;
+import me.hdcookie.games.ChannelGames.GuessTheNumber;
+import me.hdcookie.games.ChannelGames.MakeASentance;
+import me.hdcookie.games.TruthOrDare.TODCommand;
+import me.hdcookie.games.TruthOrDare.TODListener;
+import me.hdcookie.games.TruthOrDare.TODManager;
 import me.hdcookie.points.PointCommands;
 import me.hdcookie.points.PointListener;
 import me.hdcookie.points.PointManager;
 import me.hdcookie.commands.*;
-import me.hdcookie.games.Count;
 import me.hdcookie.commands.methods.Fact;
 import me.hdcookie.commands.methods.SetChannel;
 import me.hdcookie.commands.methods.SetMessage;
 import me.hdcookie.commands.music.*;
-import me.hdcookie.commands.other.TestCommand;
 import me.hdcookie.database.Config;
 import me.hdcookie.database.Database;
 import me.hdcookie.events.JoinEvent;
@@ -24,6 +26,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 public class Main extends ListenerAdapter {
     public static void main(String[] args) throws Exception {
@@ -54,7 +58,11 @@ public class Main extends ListenerAdapter {
 
 
         //bot setup
-        JDA api = JDABuilder.createDefault(tokenStr).enableIntents(GatewayIntent.MESSAGE_CONTENT).build();
+        JDA api = JDABuilder.createDefault(tokenStr)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
+                .setMemberCachePolicy(MemberCachePolicy.ALL)
+                .setChunkingFilter(ChunkingFilter.ALL)
+                .build();
         System.out.println("Connected to discord");
 
         //start radio after JDA successfully connects
@@ -103,11 +111,12 @@ public class Main extends ListenerAdapter {
                         .addOption(OptionType.CHANNEL, "make_a_sentence_channel", "The channel you want the make a sentence channel to be in", true)
                         .addOption(OptionType.CHANNEL, "finished_sentences", "The channel you want the finished sentences channel to be in", true)
                         .addOption(OptionType.CHANNEL, "radio_channel", "The channel you want the Radio channel to be in", true))
+                .addCommands(Commands.slash("truthordare", "Start a new game of truth or dare"))
                 .queue();
 
 
         //register events
-        api.addEventListener(new TestCommand(),
+        api.addEventListener(new TODCommand(database),
                 new SetMessage(), new JoinEvent(),
                 new Apply(), new Appeal(),
                 new Fact(), new Count(gameSaver, pointManager, database),
@@ -116,7 +125,7 @@ public class Main extends ListenerAdapter {
                 new JoinCommand(), new PlayCommand(),
                 new StopCommand(), new SkipCommand(),
                 new NowPlaying(), new QueueCommand(),
-                new SetChannel(database)
+                new SetChannel(database), new TODListener(database, new TODManager())
         );
 
         api.addEventListener(new MainCommandRegister(database));

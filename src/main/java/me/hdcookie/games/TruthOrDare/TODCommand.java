@@ -1,22 +1,53 @@
-package me.hdcookie.commands.other;
+package me.hdcookie.games.TruthOrDare;
 
+import me.hdcookie.database.Database;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Modal;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.text.TextInput;
 import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
 
-public class TestCommand extends ListenerAdapter {
+import java.sql.SQLException;
+
+public class TODCommand extends ListenerAdapter {
+
+    private final Database database;
+
+    public TODCommand(Database database) {
+        this.database = database;
+    }
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event){
-        if(event.getName().equals("test")){
-            event.reply("Hello " + event.getUser().getAsMention())
-                    .addActionRow(Button.primary("Button1", "Hello"))
-                    .queue(); // reply immediately
+        if(event.getName().equals("truthordare")){
+            TODManager todManager = new TODManager();
+
+            try {
+                if(database.getTruthOrDareID(event.getGuild().getId()).equals("0")){
+                    event.reply("You have to set a channel for the truth or dare game").queue();
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+            TruthOrDare truthOrDare = new TruthOrDare(todManager, database);
+
+            try {
+                truthOrDare.newGame(event.getGuild());
+            } catch (InterruptedException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            event.reply("Started a new game of Truth or Dare!").queue();
+
+
+
+
+
         }
     }
 
