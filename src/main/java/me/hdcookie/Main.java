@@ -1,5 +1,7 @@
 package me.hdcookie;
 
+import me.hdcookie.Utilities.Emoji;
+import me.hdcookie.Utilities.ServerSetup;
 import me.hdcookie.games.*;
 import me.hdcookie.games.ChannelGames.Count;
 import me.hdcookie.games.ChannelGames.GuessTheNumber;
@@ -41,9 +43,10 @@ public class Main extends ListenerAdapter {
         PointManager pointManager = new PointManager();
         RadioManager radioManager = new RadioManager(database);
 
+        config.createFile();
         database.connect();
 
-        config.createFile();
+
         token.createFile();
         pointManager.setUp();
         database.connect();
@@ -105,13 +108,7 @@ public class Main extends ListenerAdapter {
                 .addCommands(Commands.slash("setchannel", "Set the channel for specific activities channel")
                         .addOption(OptionType.STRING, "channel", "The channel you want to set as specific game channels", true)
                         .addOption(OptionType.CHANNEL, "destination", "The channel you want to set as specific game channels", false))
-                .addCommands(Commands.slash("setup", "Setup the bot")
-                        .addOption(OptionType.CHANNEL, "counting_channel", "The channel you want the Counting channel to be in", true)
-                        .addOption(OptionType.CHANNEL, "guessing_channel", "The channel you want the Guessing channel to be in", true)
-                        .addOption(OptionType.CHANNEL, "make_a_sentence_channel", "The channel you want the make a sentence channel to be in", true)
-                        .addOption(OptionType.CHANNEL, "finished_sentences", "The channel you want the finished sentences channel to be in", true)
-                        .addOption(OptionType.CHANNEL, "radio_channel", "The channel you want the Radio channel to be in", true))
-                .addCommands(Commands.slash("truthordare", "Start a new game of truth or dare"))
+               .addCommands(Commands.slash("truthordare", "Start a new game of truth or dare"))
                 .queue();
 
 
@@ -125,10 +122,13 @@ public class Main extends ListenerAdapter {
                 new JoinCommand(), new PlayCommand(),
                 new StopCommand(), new SkipCommand(),
                 new NowPlaying(), new QueueCommand(),
-                new SetChannel(database), new TODListener(database, new TODManager())
+                new SetChannel(database), new TODListener(database, new TODManager()),
+                new ServerSetup(database), new Emoji()
         );
 
         api.addEventListener(new MainCommandRegister(database));
+
+
 
     }
 }

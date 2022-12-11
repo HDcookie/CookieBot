@@ -1,22 +1,23 @@
 package me.hdcookie.database;
 
 import java.sql.*;
+import java.util.HashMap;
 
 public class Database {
 
     private Connection connection;
-
+    HashMap<String, String> config = Config.configHashMap;
     public void connect() throws SQLException {
 
-        final String PASSWORD = "";
-        final String USERNAME = "root";
-        final String DATABASE = "cookiebot";
-        final int PORT = 3306;
-        final String HOST = "localhost";
+        final String PASSWORD = config.get("password");
+        final String USERNAME = config.get("username");
+        final String DATABASE = config.get("database");
+        final int PORT = Integer.parseInt(config.get("port"));
+        final String HOST = config.get("host");
 
         connection = DriverManager.getConnection("jdbc:mysql://"
                 + HOST + ":" + PORT + "/" + DATABASE +
-                "?useSSL=false", USERNAME, PASSWORD);
+                "?useSSL=false&autoReconnect=true", USERNAME, PASSWORD);
     }
 
     public boolean isConnected() {
@@ -33,21 +34,19 @@ public class Database {
         return connection;
     }
 
-    public void addServerSettings(String serverID, String countID, String guessID, String radioID, String makeSentance, String finishedSentance) throws SQLException {
+    public void addServerSettings(String serverID) throws SQLException {
 
         if (isConnected()) {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO settings (GuildID, CountingID, RadioID, GuildMOTD, GuessID, MakeSentenceID, FinishedSentenceID)  VALUES (?, ?, ?, ?, ?, ?, ?)");
-            ps.setString(1, serverID);
-            ps.setString(2, countID);
-            ps.setString(3, radioID); //RadioID
-            ps.setString(4, "0"); //MOTD
-            ps.setString(5, guessID);
-            ps.setString(6, makeSentance);
-            ps.setString(7, finishedSentance);
-            ps.executeUpdate();
-
-            addGameData(serverID);
-
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO settings (GuildID, CountingID, RadioID, GuildMOTD, GuessID, MakeSentenceID, FinishedSentenceID, TruthOrDareID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                ps.setString(1, serverID);
+                ps.setString(2, "countID");
+                ps.setString(3, "radioID"); //RadioID
+                ps.setString(4, "0"); //MOTD
+                ps.setString(5, "guessID");
+                ps.setString(6, "makeSentance");
+                ps.setString(7, "finishedSentance");
+                ps.setString(8, "truthOrDare");
+                ps.executeUpdate();
         }
     }
 
@@ -60,16 +59,12 @@ public class Database {
         if (isConnected()) {
             PreparedStatement ps = connection.prepareStatement("INSERT INTO games (GuildID, Counting, Guess, CurrentSentence)  VALUES (?, ?, ?, ?)");
             ps.setString(1, serverID);
-            ps.setInt(2, 0);
+            ps.setInt(2, 1);
             ps.setInt(3, 0);
             ps.setString(4, "");
             ps.executeUpdate();
         }
     }
-
-
-
-
 
 
 

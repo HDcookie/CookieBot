@@ -34,6 +34,8 @@ public class GameManager {
         database.setCounting(event.getGuild().getId(), number);
     }
 
+
+
     public void resetNumber(MessageReceivedEvent event) throws IOException, SQLException {
         //reset number from database to 1
         database.setCounting(event.getGuild().getId(), 1);

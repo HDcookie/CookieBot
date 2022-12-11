@@ -6,11 +6,10 @@ Already implimented:
   - Guess the number 
   - Truth or dare
     - Have to set a channel for this to work, as well as create a role called TOD Truth or Dare.
-
+  - Auto channel description/emoji, when a channel is created it will automatically attempt to add an emoji and a description
 
 Plans to add in the future:
 
-- Auto channel description/emoji
 - Free simple channel games 
   - One message channel, each user gets 1 message in the channel before it gets locked.  
 - Daily Questions, polls, challanges, Bible verses, ect.

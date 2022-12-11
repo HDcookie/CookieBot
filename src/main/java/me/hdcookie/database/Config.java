@@ -19,14 +19,11 @@ public class Config {
 
             //Write all the default config
             FileWriter writer = new FileWriter(file);
-            writer.write("useTokenFile=false\n");
-            writer.write("token=YOUR_TOKEN_HERE\n");
-            writer.write("makeASentenceID=0\n");
-            writer.write("finishedSentencesID=0\n");
-            writer.write("countingID=0\n");
-            writer.write("guessTheNumberID=0\n");
-            writer.write("finishedFormsChannel=0\n");
-            writer.write("finishedFormsRole=0\n");
+            writer.write("password=1234567890\n");
+            writer.write("username=Hdcookie\n");
+            writer.write("database=cookiebot\n");
+            writer.write("host=localhost\n");
+            writer.write("port=3306\n");
             writer.close();
 
             System.exit(0);
@@ -37,6 +34,11 @@ public class Config {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split("=");
+                if(parts[1].equals("") || parts[1].equals(" ")){
+                    parts[1] = "";
+                }
+
+
                 configHashMap.put(parts[0], parts[1]);
             }
             System.out.println("Config loaded" + configHashMap.toString());
@@ -46,4 +48,26 @@ public class Config {
     public String getToken() {
         return configHashMap.get("token");
     }
+
+    public String getPassword() {
+        return configHashMap.get("password");
+    }
+
+    public String getUsername() {
+        return configHashMap.get("username");
+    }
+
+    public String getDatabase() {
+        return configHashMap.get("database");
+    }
+
+    public String getHost() {
+        return configHashMap.get("host");
+    }
+
+    public String getPort() {
+        return configHashMap.get("port");
+    }
+
+
 }

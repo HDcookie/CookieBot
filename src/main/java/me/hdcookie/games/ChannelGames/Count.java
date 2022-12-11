@@ -10,14 +10,15 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class Count extends ListenerAdapter {
 
-
-    public Member lastMember = null;
     public final GameManager gameSaver;
     public final PointManager pointManager;
     public final Database database;
+
+    public HashMap<String, String > lastMember = new HashMap<>();
 
     private EmbedBuilder countedTwice = new EmbedBuilder()
                                     .setTitle("You can't count twice in a row!")
@@ -39,6 +40,7 @@ public class Count extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event){
+        String id = event.getGuild().getId();
 
         try {
             if(event.getAuthor().isBot()) return;
@@ -54,9 +56,11 @@ public class Count extends ListenerAdapter {
 
                     //Check if message is right number
                     if (event.getMessage().getContentRaw().equals(String.valueOf(nextNumber))) {
-                        if(nextNumber == 1 || lastMember == null){
-                            lastMember = event.getMember();
-                        }else if(lastMember.equals(event.getMember())){
+                        if(nextNumber == 1 || lastMember.get(id) == null){
+
+                            lastMember.put(id, event.getMember().getId());
+
+                        }else if(lastMember.get(id).equals(event.getMember().getId())){
                             //Runs when someone counts twice in a row
 
                             event.getChannel().sendMessageEmbeds(countedTwice.build()).queue();
@@ -65,13 +69,15 @@ public class Count extends ListenerAdapter {
                             gameSaver.resetNumber(event);
                             pointManager.removePoints(event.getMember().getId(), 2);
 
+                            lastMember.put(id, ""); //let last member count again
+
                             return;
                         }
 
                         //Runs when everything is right
                         gameSaver.count(event);
                         event.getMessage().addReaction(correct).queue();
-                        lastMember = null;
+                        lastMember.put(event.getMember().getId(), id);
 
                     } else {
                         //Check if message is a number

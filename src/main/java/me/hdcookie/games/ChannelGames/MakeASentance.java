@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 public class MakeASentance extends ListenerAdapter {
 
@@ -23,10 +24,12 @@ public class MakeASentance extends ListenerAdapter {
         this.pointManager = pointManager;
         this.database = database;
     }
-    private Member lastMember;
+    private HashMap<String, String> lastMember = new HashMap<>();
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        String id = event.getGuild().getId();
+
         if(event.getAuthor().isBot()) return;
         if(event.getChannelType().equals(event.getChannelType().PRIVATE)) return;
         try {
@@ -45,9 +48,9 @@ public class MakeASentance extends ListenerAdapter {
 
 
                     if (msgWords.length == 1) { //if the message is only one word, what we want
-                        if(lastMember == null){
-                            lastMember = event.getMember();  //runs only when the game starts
-                        }else if(lastMember.equals(event.getMember())){ //if the last person to send a message is the same as the current person
+                        if(lastMember.get(id) == null || lastMember.get(id).equals("")){
+                            lastMember.put(id, event.getMember().getId());  //runs only when the game starts
+                        }else if(lastMember.get(id).equals(event.getMember().getId())){ //if the last person to send a message is the same as the current person
                             event.getMessage().delete().queue();
                             return;
                         }
@@ -55,15 +58,15 @@ public class MakeASentance extends ListenerAdapter {
 
 
                         gameSaver.addWord(msgWords[0], event);
-                        lastMember = event.getMember();
+                        lastMember.put(id, event.getMember().getId());
                         event.getMessage().addReaction(Emoji.fromUnicode("U+2705")).queue();
 
                         if(isPunctuation){ //1 word and finishes with a punctuation mark
-                            System.out.println("punctuation");
+
                             gameSaver.finishSentance(event.getGuild());
 
                             event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
-                            lastMember = null;
+                            lastMember.put(id, "");
                             return;
                         }
                         return;
