@@ -1,14 +1,16 @@
 CookieBot is a bot I'm creating with the goal to sell it as a subscription.  It plans to add clean and fun games and commands inside of discord, among other fun/useful features.  
 
-Already implimented: 
+# **View the repository's linked project to see up to date TODO info**
+### https://github.com/users/HDcookie/projects/8/views/1
+
+Features already implimented: 
   - Make a sentence 
   - Counting 
   - Guess the number 
-  - Truth or dare
-    - Have to set a channel for this to work, as well as create a role called TOD Truth or Dare.
+  - Truth or dare (dms players to let players creat their own truths and dares)
   - Auto channel description/emoji, when a channel is created it will automatically attempt to add an emoji and a description
 
-Plans to add in the future:
+### Plans to add in the future:
 
 - Free simple channel games 
   - One message channel, each user gets 1 message in the channel before it gets locked.  
@@ -18,7 +20,7 @@ Plans to add in the future:
 - Bible bot features https://biblebot.xyz/
 - Custom 24/7 Radio (mostly done, needs to fully implement SQL and multiple server logic)
 
-Might add in the future
+### Might add in the future:
 - Somewhat advanced ticket system with motals
 - Mod mail system, makes threads for all the mod mails in specific channel
 - Points system (currency/xp, gains points for compleating/winning games.)  (will happen, but will not be focusing on it much)

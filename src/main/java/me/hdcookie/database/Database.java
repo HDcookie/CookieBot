@@ -7,6 +7,7 @@ public class Database {
 
     private Connection connection;
     HashMap<String, String> config = Config.configHashMap;
+
     public void connect() throws SQLException {
 
         final String PASSWORD = config.get("password");
@@ -37,16 +38,16 @@ public class Database {
     public void addServerSettings(String serverID) throws SQLException {
 
         if (isConnected()) {
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO settings (GuildID, CountingID, RadioID, GuildMOTD, GuessID, MakeSentenceID, FinishedSentenceID, TruthOrDareID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                ps.setString(1, serverID);
-                ps.setString(2, "countID");
-                ps.setString(3, "radioID"); //RadioID
-                ps.setString(4, "0"); //MOTD
-                ps.setString(5, "guessID");
-                ps.setString(6, "makeSentance");
-                ps.setString(7, "finishedSentance");
-                ps.setString(8, "truthOrDare");
-                ps.executeUpdate();
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO settings (GuildID, CountingID, RadioID, GuildMOTD, GuessID, MakeSentenceID, FinishedSentenceID, TruthOrDareID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setString(1, serverID);
+            ps.setString(2, "countID");
+            ps.setString(3, "radioID"); //RadioID
+            ps.setString(4, "0"); //MOTD
+            ps.setString(5, "guessID");
+            ps.setString(6, "makeSentance");
+            ps.setString(7, "finishedSentance");
+            ps.setString(8, "truthOrDare");
+            ps.executeUpdate();
         }
     }
 
@@ -67,8 +68,7 @@ public class Database {
     }
 
 
-
-//Getters for channel ID's -----------------------------------------------------------------------------------------------
+    //Getters for channel ID's -----------------------------------------------------------------------------------------------
     public String getCountingID(String serverID) throws SQLException {
 
 
@@ -78,6 +78,7 @@ public class Database {
         rs.next();
         return rs.getString("CountingID");
     }
+
     public String getGuessingID(String serverID) throws SQLException {
 
         PreparedStatement ps = connection.prepareStatement("SELECT GuessID FROM settings WHERE GuildID = ?");
@@ -86,6 +87,7 @@ public class Database {
         rs.next();
         return rs.getString("GuessID");
     }
+
     public String getMakeSentenceID(String serverID) throws SQLException {
 
         PreparedStatement ps = connection.prepareStatement("SELECT MakeSentenceID FROM settings WHERE GuildID = ?");
@@ -94,6 +96,7 @@ public class Database {
         rs.next();
         return rs.getString("MakeSentenceID");
     }
+
     public String getFinishedSentencesID(String serverID) throws SQLException {
 
         PreparedStatement ps = connection.prepareStatement("SELECT FinishedSentenceID FROM settings WHERE GuildID = ?");
@@ -102,6 +105,7 @@ public class Database {
         rs.next();
         return rs.getString("FinishedSentenceID");
     }
+
     public String getRadioID(String serverID) throws SQLException {
 
         PreparedStatement ps = connection.prepareStatement("SELECT RadioID FROM settings WHERE GuildID = ?");
@@ -137,24 +141,28 @@ public class Database {
         ps.setString(2, serverID);
         ps.executeUpdate();
     }
+
     public void setCountingID(String channelID, String serverID) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("UPDATE settings SET CountingID = ? WHERE GuildID = ?");
         ps.setString(1, channelID);
         ps.setString(2, serverID);
         ps.executeUpdate();
     }
+
     public void setGuessingID(String channelID, String serverID) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("UPDATE settings SET GuessID = ? WHERE GuildID = ?");
         ps.setString(1, channelID);
         ps.setString(2, serverID);
         ps.executeUpdate();
     }
+
     public void setMakeSentenceID(String channelID, String serverID) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("UPDATE settings SET MakeSentenceID = ? WHERE GuildID = ?");
         ps.setString(1, channelID);
         ps.setString(2, serverID);
         ps.executeUpdate();
     }
+
     public void setFinishedSentencesID(String channelID, String serverID) throws SQLException {
         PreparedStatement ps = connection.prepareStatement("UPDATE settings SET FinishedSentenceID = ? WHERE GuildID = ?");
         ps.setString(1, channelID);
@@ -179,6 +187,7 @@ public class Database {
         rs.next();
         return rs.getInt("Counting");
     }
+
     public int getGuessing(String serverID) throws SQLException {
 
         PreparedStatement ps = connection.prepareStatement("SELECT Guess FROM games WHERE GuildID = ?");
@@ -187,6 +196,7 @@ public class Database {
         rs.next();
         return rs.getInt("Guess");
     }
+
     public String getCurrentSentence(String serverID) throws SQLException {
 
         PreparedStatement ps = connection.prepareStatement("SELECT CurrentSentence FROM games WHERE GuildID = ?");
@@ -315,4 +325,51 @@ public class Database {
         ps.executeUpdate();
     }
 
+    //QOTD channel data -----------------------------------------------------------------------------------------------
+
+    //method that returns a hashmap of all servers with a qotd channel set, and the channel id
+    public HashMap<String, String> getQOTDChannels() throws SQLException {
+        HashMap<String, String> qotdChannels = new HashMap<>();
+
+        // Define the SQL query to select the GuildID and QOTDId columns from the settings table
+        String query = "SELECT GuildID, QOTDId FROM settings WHERE QOTDId IS NOT NULL";
+
+        // Create a prepared statement for the query
+        PreparedStatement pstmt = connection.prepareStatement(query);
+
+        // Execute the query and get the result set
+        ResultSet resultSet = pstmt.executeQuery();
+
+        // Iterate through the result set and add each GuildID and QOTDId to the hashmap
+        while (resultSet.next()) {
+            String guildId = resultSet.getString("GuildID");
+            String channelId = resultSet.getString("QOTDId");
+            if(guildId != null && channelId != null) {
+                if(channelId.length() > 0 && !channelId.equals("")) {
+                    qotdChannels.put(guildId, channelId);
+                }
+
+            }
+
+        }
+        System.out.println(qotdChannels + "from getQOTDChannels");
+        return qotdChannels;
+    }
+    public void setQOTDID(String serverID, String channelID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("UPDATE settings SET QOTDId = ? WHERE GuildID = ?");
+        ps.setString(1, channelID);
+        ps.setString(2, serverID);
+        ps.executeUpdate();
+
+    }
+
+    public void getQOTDID(String serverID) throws SQLException {
+
+        PreparedStatement ps = connection.prepareStatement("SELECT ChannelID FROM settings WHERE GuildID = ?");
+        ps.setString(1, serverID);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        System.out.println(rs.getString("ChannelID"));
+    }
 }

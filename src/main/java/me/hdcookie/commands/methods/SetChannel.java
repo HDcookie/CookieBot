@@ -46,9 +46,14 @@ public class SetChannel extends ListenerAdapter {
                         database.setTruthOrDareID(event.getChannel().getId(), event.getGuild().getId());
                         event.reply("Channel set to " + event.getOption("channel").getAsString()).queue();
                         break;
+                    case "qotd" :
+                        database.setQOTDID(event.getGuild().getId(), event.getChannel().getId());
+                        event.reply("Channel set to " + event.getOption("channel").getAsString()).queue();
+                        break;
+
                     default:
                         event.reply("Type of channel not found, suitable options are:").queue();
-                        event.getChannel().sendMessage("counting, radio, guessing, make_a_sentence, finished_sentences").queue();
+                        event.getChannel().sendMessage("counting, radio, guessing, make_a_sentence, finished_sentences, QOTD").queue();
 
                         break;
                 }

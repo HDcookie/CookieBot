@@ -95,6 +95,19 @@ public class ServerSetup extends ListenerAdapter {
                 }
             });
 
+            category.createTextChannel("\uD83D\uDCD6QOTD").queue( textChannel -> {
+                textChannel.getManager().setTopic("Question of the day").queue();
+                textChannel.getManager().setSlowmode(5).queue();
+                textChannel.getManager().setParent(category).queue();
+                textChannel.sendMessage("Question of the day! Use /qotd to start!").queue();
+
+                try {
+                    database.setQOTDID(textChannel.getId(), event.getGuild().getId());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
 
         });
 

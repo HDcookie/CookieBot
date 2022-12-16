@@ -1,6 +1,7 @@
 package me.hdcookie;
 
 import me.hdcookie.Utilities.Emoji;
+import me.hdcookie.Utilities.Scheduler;
 import me.hdcookie.Utilities.ServerSetup;
 import me.hdcookie.games.*;
 import me.hdcookie.games.ChannelGames.Count;
@@ -42,6 +43,7 @@ public class Main extends ListenerAdapter {
         GameManager gameSaver = new GameManager(database);
         PointManager pointManager = new PointManager();
         RadioManager radioManager = new RadioManager(database);
+        Scheduler scheduler = new Scheduler();
 
         config.createFile();
         database.connect();
@@ -50,10 +52,6 @@ public class Main extends ListenerAdapter {
         token.createFile();
         pointManager.setUp();
         database.connect();
-
-
-
-
 
 
         //token setup
@@ -70,6 +68,8 @@ public class Main extends ListenerAdapter {
 
         //start radio after JDA successfully connects
         api.awaitReady();
+        //Run code that needs the jda object and jda to be finished loading
+        scheduler.startQOTDScheduler(api, database);
         //radioManager.startRadio(api.getGuildById("977977923569070120"));
 
 
