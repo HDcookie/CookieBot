@@ -20,7 +20,7 @@ public class PointManager {
             //load points
             System.out.println("Points file does not exist, creating new file");
         } else {
-            System.out.println("Points file exists, loading points");
+            System.out.println("Points file exists.  \n dont forget to fix all of this junk");
 
             Scanner scanner = new Scanner(file);
             if(scanner.hasNextLine()) {

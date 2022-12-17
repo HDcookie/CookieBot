@@ -3,18 +3,21 @@ package me.hdcookie.commands.music;
 import com.freya02.botcommands.api.application.ApplicationCommand;
 import com.freya02.botcommands.api.application.slash.GuildSlashEvent;
 import com.freya02.botcommands.api.application.slash.annotations.JDASlashCommand;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.hdcookie.lavaplayer.GuildMusicManager;
 import me.hdcookie.lavaplayer.PlayerManager;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-public class StopCommand extends ApplicationCommand {
+public class NowPlayingCommand extends ApplicationCommand {
     @JDASlashCommand(
-            name = "stop",
-            description = "Stops the music and clears the queue"
+            name = "nowplaying",
+            description = "Shows what song is playing"
     )
-    public void onSlashStop(GuildSlashEvent event) {
+    public void onSlashN(GuildSlashEvent event) {
+
         final TextChannel channel = event.getChannel().asTextChannel();
 
         final Member self = event.getGuild().getSelfMember();
@@ -39,14 +42,16 @@ public class StopCommand extends ApplicationCommand {
         }
 
         GuildMusicManager musicManager = PlayerManager.getInstance().getGuildMusicManager(event.getGuild());
+        AudioPlayer audioPlayer = musicManager.audioPlayer;
 
-        musicManager.scheduler.player.stopTrack();
-        musicManager.scheduler.queue.clear();
+        if(audioPlayer.getPlayingTrack() == null) {
+            event.reply("There is no song playing").queue();
+            return;
+        }
 
-        //leaves the voice channel
-        event.getGuild().getAudioManager().closeAudioConnection();
+        AudioTrack playingTrack = audioPlayer.getPlayingTrack();
 
-        event.reply("Stopped the music and cleared the queue").queue();
+        event.reply("Now playing: " + playingTrack.getInfo().title).queue();
 
     }
 }

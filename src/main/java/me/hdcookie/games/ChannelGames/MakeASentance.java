@@ -28,6 +28,8 @@ public class MakeASentance extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+        if (event.getAuthor().isBot()) return;
+        if(event.getChannel().getType().equals(event.getChannelType().PRIVATE)) return;
         String id = event.getGuild().getId();
 
         if(event.getAuthor().isBot()) return;

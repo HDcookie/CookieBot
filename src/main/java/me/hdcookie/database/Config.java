@@ -45,29 +45,4 @@ public class Config {
         }
     }
 
-    public String getToken() {
-        return configHashMap.get("token");
-    }
-
-    public String getPassword() {
-        return configHashMap.get("password");
-    }
-
-    public String getUsername() {
-        return configHashMap.get("username");
-    }
-
-    public String getDatabase() {
-        return configHashMap.get("database");
-    }
-
-    public String getHost() {
-        return configHashMap.get("host");
-    }
-
-    public String getPort() {
-        return configHashMap.get("port");
-    }
-
-
 }

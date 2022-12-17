@@ -7,14 +7,19 @@ public class Database {
 
     private Connection connection;
     HashMap<String, String> config = Config.configHashMap;
+    private ConfigManager configManager;
+
+    public Database(ConfigManager configManager) {
+        this.configManager = configManager;
+    }
 
     public void connect() throws SQLException {
 
-        final String PASSWORD = config.get("password");
-        final String USERNAME = config.get("username");
-        final String DATABASE = config.get("database");
-        final int PORT = Integer.parseInt(config.get("port"));
-        final String HOST = config.get("host");
+        final String PASSWORD = configManager.getConfigValue("password").toString().replace("\"", "");
+        final String USERNAME = configManager.getConfigValue("username").toString().replace("\"", "");
+        final String DATABASE = configManager.getConfigValue("database").toString().replace("\"", "");
+        final int PORT = Integer.parseInt(configManager.getConfigValue("port").toString());
+        final String HOST = configManager.getConfigValue("host").toString().replace("\"", "");
 
         connection = DriverManager.getConnection("jdbc:mysql://"
                 + HOST + ":" + PORT + "/" + DATABASE +
