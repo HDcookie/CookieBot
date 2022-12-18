@@ -1,6 +1,9 @@
 #Gradle
 .gradle/
 build/
+gradlew
+gradlew.bat
+gradle/
 
 #pls dont break anything
 
