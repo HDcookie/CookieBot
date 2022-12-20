@@ -43,7 +43,7 @@ public class Database {
     public void addServerSettings(String serverID) throws SQLException {
 
         if (isConnected()) {
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO settings (GuildID, CountingID, RadioID, GuildMOTD, GuessID, MakeSentenceID, FinishedSentenceID, TruthOrDareID)  VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO settings (GuildID, CountingID, RadioID, GuildMOTD, GuessID, MakeSentenceID, FinishedSentenceID, TruthOrDareID, QOTDId)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, serverID);
             ps.setString(2, "countID");
             ps.setString(3, "radioID"); //RadioID
@@ -52,6 +52,7 @@ public class Database {
             ps.setString(6, "makeSentance");
             ps.setString(7, "finishedSentance");
             ps.setString(8, "truthOrDare");
+            ps.setString(9, "qotd");
             ps.executeUpdate();
         }
     }

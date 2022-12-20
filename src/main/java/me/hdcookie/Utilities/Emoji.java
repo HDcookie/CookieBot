@@ -1,6 +1,7 @@
 package me.hdcookie.Utilities;
 
 import com.google.gson.Gson;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.http.HttpRequest;
@@ -34,6 +35,11 @@ public class Emoji extends ListenerAdapter {
 
     @Override
     public void onChannelCreate(ChannelCreateEvent event) {
+
+        if(!(event.getChannel().getType() == ChannelType.TEXT)) {
+            return;
+        }
+
         //split channel name from -, and get the longest word
         String[] channelName = event.getChannel().getName().split("-");
         String longestWord = "";
