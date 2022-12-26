@@ -49,7 +49,7 @@ public class ServerSetup extends ListenerAdapter {
                 textChannel.getManager().setTopic("Guessing game").queue();
                 textChannel.getManager().setSlowmode(5).queue();
                 textChannel.getManager().setParent(category).queue();
-                textChannel.sendMessage("Guess a number between 1 and 100").queue();
+                textChannel.sendMessage("Guess a number between 1 and 100").queue(message -> message.pin().queue());
 
                 try {
                     database.setGuessingID(textChannel.getId(), event.getGuild().getId());
@@ -62,7 +62,7 @@ public class ServerSetup extends ListenerAdapter {
                 textChannel.getManager().setSlowmode(5).queue();
 
                 textChannel.getManager().setParent(category).queue();
-                textChannel.sendMessage("Make a sentence game! Send 1 word to start, and end with a punctuation mark").queue();
+                textChannel.sendMessage("Make a sentence game! Send 1 word to start, and end with a punctuation mark").queue(message -> message.pin().queue());
 
                 try {
                     database.setMakeSentenceID(textChannel.getId(), event.getGuild().getId());
@@ -74,7 +74,7 @@ public class ServerSetup extends ListenerAdapter {
                 textChannel.getManager().setTopic("Finished sentences game").queue();
                 textChannel.getManager().setSlowmode(5).queue();
                 textChannel.getManager().setParent(category).queue();
-                textChannel.sendMessage("This is where the finished sentences will go!").queue();
+                textChannel.sendMessage("This is where the finished sentences will go!").queue(message -> message.pin().queue());
 
                 try {
                     database.setFinishedSentencesID(textChannel.getId(), event.getGuild().getId());
@@ -86,7 +86,7 @@ public class ServerSetup extends ListenerAdapter {
                 textChannel.getManager().setTopic("Truth or dare game").queue();
                 textChannel.getManager().setSlowmode(5).queue();
                 textChannel.getManager().setParent(category).queue();
-                textChannel.sendMessage("Truth or dare game! Use /truthordare to start!").queue();
+                textChannel.sendMessage("Truth or dare game! Use /truthordare to start!").queue(message -> message.pin().queue());
 
                 try {
                     database.setTruthOrDareID(textChannel.getId(), event.getGuild().getId());
@@ -99,7 +99,7 @@ public class ServerSetup extends ListenerAdapter {
                 textChannel.getManager().setTopic("Question of the day").queue();
                 textChannel.getManager().setSlowmode(5).queue();
                 textChannel.getManager().setParent(category).queue();
-                textChannel.sendMessage("Question of the day! Use /qotd to start!").queue();
+                textChannel.sendMessage("Question of the day! Automatically sends questions here").queue(message -> message.pin().queue());
 
                 try {
                     database.setQOTDID(textChannel.getId(), event.getGuild().getId());
