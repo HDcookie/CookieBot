@@ -4,6 +4,7 @@ import com.freya02.botcommands.api.CommandsBuilder;
 import me.hdcookie.Utilities.Emoji;
 import me.hdcookie.Utilities.Scheduler;
 import me.hdcookie.Utilities.ServerSetup;
+import me.hdcookie.events.ButtonEvents;
 import me.hdcookie.events.ModalsInteractions;
 import me.hdcookie.commands.utilities.SetChannel;
 import me.hdcookie.database.ConfigManager;
@@ -24,6 +25,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
+import java.util.logging.Logger;
+
 public class Main extends ListenerAdapter {
 
     private static ConfigManager configManager = new ConfigManager();
@@ -32,7 +35,7 @@ public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Starting discord bot");
-        System.out.println(" don't forget to remove the config class, because we're using the config manager now");
+
 
 
         Token token = new Token();
@@ -84,7 +87,8 @@ public class Main extends ListenerAdapter {
                 new Count(gameSaver, pointManager, database),
                 new MakeASentance(gameSaver, pointManager, database), new GuessTheNumber(gameSaver, pointManager, database),
                 new TODListener(database, new TODManager()),
-                new ServerSetup(database), new Emoji()
+                new ServerSetup(database), new Emoji(),
+                new ButtonEvents()
                 );
 
     }

@@ -71,7 +71,7 @@ public class MakeASentance extends ListenerAdapter {
                             lastMember.put(id, "");
                             return;
                         }
-                        return;
+
 
                     } else {
                         if(msgWords.length == 2) {
@@ -89,7 +89,7 @@ public class MakeASentance extends ListenerAdapter {
 
                         event.getMessage().addReaction(Emoji.fromUnicode("U+274C")).queue();
 
-                        pointManager.removePoints(event.getMember().getId(), 1);
+
                     }
 
                 } catch (Exception e) {

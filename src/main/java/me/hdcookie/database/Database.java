@@ -1,12 +1,14 @@
 package me.hdcookie.database;
 
+import me.hdcookie.Main;
+
 import java.sql.*;
 import java.util.HashMap;
 
 public class Database {
 
     private Connection connection;
-    HashMap<String, String> config = Config.configHashMap;
+
     private ConfigManager configManager;
 
     public Database(ConfigManager configManager) {

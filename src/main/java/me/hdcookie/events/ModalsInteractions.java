@@ -1,6 +1,5 @@
 package me.hdcookie.events;
 
-import me.hdcookie.database.Config;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -65,10 +64,10 @@ public class ModalsInteractions extends ListenerAdapter {
             embed.setAuthor(event.getUser().getAsTag(), null, event.getUser().getAvatarUrl());
 
 
-            event.getGuild().getTextChannelById(Config.configHashMap.get("finishedFormsChannel")).sendMessage("New application" +
+            event.getGuild().getTextChannelById(1059513757245653022L).sendMessage("New application" +
                     event.getGuild().getRoleById(959575223315865603L).getAsMention()).queue();
 
-            event.getGuild().getTextChannelById(Config.configHashMap.get("finishedFormsRole")).sendMessageEmbeds(embed.build()).queue();
+            event.getGuild().getTextChannelById(1059513757245653022L).sendMessageEmbeds(embed.build()).queue();
         }
         if (event.getModalId().equals("Application")) {
             event.reply("Thank you for your application").setEphemeral(true).queue();

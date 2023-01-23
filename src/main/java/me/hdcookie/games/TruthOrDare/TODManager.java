@@ -99,5 +99,16 @@ public class TODManager {
         return modal;
     }
 
+    public void giveTruthOrDareRole(Guild guild, Member member){
+
+
+
+        guild.addRoleToMember(member, guild.getRolesByName("tod", true).get(0)).queue();
+    }
+
+    public void removeTruthOrDareRole(Guild guild, Member member){
+        guild.removeRoleFromMember(member, guild.getRolesByName("tod", true).get(0)).queue();
+    }
+
 
 }

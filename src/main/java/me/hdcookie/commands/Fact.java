@@ -26,7 +26,6 @@ public class Fact extends ApplicationCommand {
             description = "Gives user a random fact"
     )
     public void onSlashFact(GuildSlashEvent event) {
-        System.out.println("Fact command called");
         String fact = "";
         try{
             Scanner scanner = getFactScanner();

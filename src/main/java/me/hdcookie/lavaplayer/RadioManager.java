@@ -1,6 +1,5 @@
 package me.hdcookie.lavaplayer;
 
-import me.hdcookie.database.Config;
 import me.hdcookie.database.Database;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
